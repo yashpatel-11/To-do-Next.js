@@ -14,88 +14,38 @@ export default function Sidebar() {
       .toUpperCase() ?? "";
 
   return (
-    <aside
-      style={{
-        width: "220px",
-        borderRight: "1px solid #e5e5e5",
-        padding: "16px",
-        background: "#fafafa",
-      }}
-    >
+    <aside className="w-64 border-r border-white/50 bg-white/70 p-4 backdrop-blur">
       {/* Profile / Auth Header */}
       {user ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-            paddingBottom: "12px",
-            marginBottom: "12px",
-            borderBottom: "1px solid #e5e5e5",
-          }}
-        >
-          <div
-            style={{
-              width: "40px",
-              height: "40px",
-              borderRadius: "50%",
-              background: "#ddd",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: "bold",
-            }}
-          >
+        <div className="mb-3 flex items-center gap-3 border-b border-slate-200/80 pb-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 text-sm font-semibold text-slate-700">
             {initials}
           </div>
 
-          <div style={{ fontSize: "12px" }}>
-            <div style={{ fontWeight: 600 }}>{user.name}</div>
-            <div style={{ color: "#666" }}>{user.email}</div>
+          <div className="text-xs">
+            <div className="font-semibold text-slate-800">{user.name}</div>
+            <div className="text-slate-500">{user.email}</div>
           </div>
         </div>
       ) : (
-        <div
-          style={{
-            paddingBottom: "12px",
-            marginBottom: "12px",
-            borderBottom: "1px solid #e5e5e5",
-          }}
-        >
-          <div style={{ fontSize: "13px", marginBottom: "8px" }}>
+        <div className="mb-3 border-b border-slate-200/80 pb-3">
+          <div className="mb-2 text-xs">
             <b>Welcome</b>
             <br />
-            <span style={{ color: "#666" }}>
+            <span className="text-slate-500">
               Sign in to sync your tasks
             </span>
           </div>
-          <div style={{ display: "flex", gap: "8px" }}>
+          <div className="flex gap-2">
             <Link
               href="/login"
-              style={{
-                flex: 1,
-                textAlign: "center",
-                padding: "6px 8px",
-                borderRadius: "4px",
-                background: "#2563eb",
-                color: "#fff",
-                fontSize: "12px",
-                textDecoration: "none",
-              }}
+              className="flex-1 rounded-md bg-blue-600 px-2 py-1.5 text-center text-xs text-white"
             >
               Sign in
             </Link>
             <Link
               href="/register"
-              style={{
-                flex: 1,
-                textAlign: "center",
-                padding: "6px 8px",
-                borderRadius: "4px",
-                border: "1px solid #d1d5db",
-                fontSize: "12px",
-                textDecoration: "none",
-              }}
+              className="flex-1 rounded-md border border-slate-300 px-2 py-1.5 text-center text-xs text-slate-700"
             >
               Create account
             </Link>
@@ -104,21 +54,21 @@ export default function Sidebar() {
       )}
 
       {/* Navigation */}
-      <ul style={{ listStyle: "none", padding: 0 }}>
+      <ul className="space-y-1 text-sm">
         <li>
-          <Link href="/dashboard">Dashboard</Link>
+          <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/dashboard">Dashboard</Link>
         </li>
         <li>
-          <Link href="/projects">Projects</Link>
+          <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/projects">Projects</Link>
         </li>
         <li>
-          <Link href="/tasks/board">Task Board</Link>
+          <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/tasks/board">Task Board</Link>
         </li>
         <li>
-          <Link href="/tasks/my">My Tasks</Link>
+          <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/tasks/my">My Tasks</Link>
         </li>
         <li>
-          <Link href="/profile">Profile</Link>
+          <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/profile">Profile</Link>
         </li>
       </ul>
     </aside>

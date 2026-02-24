@@ -10,12 +10,17 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="min-h-screen bg-slate-100">
         <AuthProvider>
           <Navbar />
-          <div style={{ display: "flex", minHeight: "100vh" }}>
+          <div className="flex min-h-[calc(100vh-57px)]">
             <Sidebar />
-            <main style={{ flex: 1, padding: "16px" }}>{children}</main>
+            <main
+              className="flex-1 bg-cover bg-center bg-no-repeat p-4 sm:p-6"
+              style={{ backgroundImage: "url('/todo-bg.svg')" }}
+            >
+              {children}
+            </main>
           </div>
         </AuthProvider>
       </body>

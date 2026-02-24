@@ -1,12 +1,7 @@
 export default function Navbar() {
   return (
-    <nav
-      style={{
-        padding: "12px 16px",
-        borderBottom: "1px solid #ccc",
-      }}
-    >
-      <h2>Todo Application</h2>
+    <nav className="sticky top-0 z-20 border-b border-white/50 bg-white/70 px-5 py-3 backdrop-blur">
+      <h2 className="text-base font-semibold text-slate-800">To Do</h2>
     </nav>
   );
 }

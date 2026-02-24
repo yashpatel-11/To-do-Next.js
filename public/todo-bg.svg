@@ -1,0 +1,28 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1920" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#dbeafe"/>
+      <stop offset="0.55" stop-color="#bfdbfe"/>
+      <stop offset="1" stop-color="#e2e8f0"/>
+    </linearGradient>
+    <radialGradient id="blobA" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(380 260) rotate(22) scale(720 520)">
+      <stop stop-color="#93c5fd" stop-opacity="0.65"/>
+      <stop offset="1" stop-color="#93c5fd" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="blobB" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1460 760) rotate(-18) scale(760 560)">
+      <stop stop-color="#60a5fa" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#60a5fa" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <ellipse cx="380" cy="260" rx="720" ry="520" fill="url(#blobA)"/>
+  <ellipse cx="1460" cy="760" rx="760" ry="560" fill="url(#blobB)"/>
+
+  <g opacity="0.35" stroke="#ffffff" stroke-width="1">
+    <path d="M-40 220 C 360 140, 740 310, 1120 230 C 1460 160, 1740 210, 1980 160"/>
+    <path d="M-50 380 C 380 300, 760 470, 1100 390 C 1440 320, 1720 370, 1980 330"/>
+    <path d="M-40 560 C 360 480, 760 640, 1100 580 C 1460 520, 1760 560, 1980 520"/>
+    <path d="M-30 760 C 380 680, 780 850, 1140 790 C 1500 730, 1770 780, 1980 740"/>
+  </g>
+</svg>
