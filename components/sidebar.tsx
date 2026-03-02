@@ -65,7 +65,7 @@ export default function Sidebar() {
           <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/tasks/board">Task Board</Link>
         </li>
         <li>
-          <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/tasks/my">My Tasks</Link>
+          <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/tasks/my">Planned</Link>
         </li>
         <li>
           <Link className="block rounded-md px-2 py-1.5 text-slate-700 hover:bg-white/70" href="/profile">Profile</Link>

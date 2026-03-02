@@ -41,18 +41,22 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const { title } = (await request.json()) as {
+  const { title, dueDate } = (await request.json()) as {
     title?: string;
+    dueDate?: string;
   };
 
   if (!title || !title.trim()) {
     return NextResponse.json({ message: "Task title is required." }, { status: 400 });
   }
 
+  const parsedDueDate = dueDate ? new Date(dueDate) : null;
+  const hasValidDueDate = parsedDueDate && !Number.isNaN(parsedDueDate.getTime());
+
   await prisma.$executeRaw(
     Prisma.sql`
-      INSERT INTO task (title, completed, createdAt, updatedAt, userId)
-      VALUES (${title.trim()}, ${false}, NOW(), NOW(), ${userId})
+      INSERT INTO task (title, dueDate, completed, createdAt, updatedAt, userId)
+      VALUES (${title.trim()}, ${hasValidDueDate ? parsedDueDate : null}, ${false}, NOW(), NOW(), ${userId})
     `
   );
 

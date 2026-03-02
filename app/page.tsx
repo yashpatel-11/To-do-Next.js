@@ -12,7 +12,7 @@ export default function HomePage() {
         </h1>
 
         <p className="text-slate-600 mb-8">
-          A simple and clean to-do application inspired by Microsoft To-Do,
+          A simple and clean to-do application inspired by M icrosoft To-Do,
           designed to help you plan your day and manage tasks efficiently.
         </p>
 

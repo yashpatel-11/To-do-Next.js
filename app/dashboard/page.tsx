@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -64,6 +65,11 @@ export default function DashboardPage() {
 
   const pendingTasks = useMemo(() => tasks.filter((task) => !task.completed), [tasks]);
   const completedTasks = useMemo(() => tasks.filter((task) => task.completed), [tasks]);
+  const focusTasks = useMemo(() => pendingTasks.slice(0, 5), [pendingTasks]);
+  const completionRate = useMemo(() => {
+    if (!tasks.length) return 0;
+    return Math.round((completedTasks.length / tasks.length) * 100);
+  }, [tasks.length, completedTasks.length]);
 
   const handleAddTask = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -118,20 +124,6 @@ export default function DashboardPage() {
     setTasks((current) => current.map((item) => (item.id === task.id ? data.task : item)));
   };
 
-  const handleDeleteTask = async (taskId: number) => {
-    const response = await fetch(`/api/tasks/${taskId}`, {
-      method: "DELETE",
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      setError("Unable to delete task.");
-      return;
-    }
-
-    setTasks((current) => current.filter((task) => task.id !== taskId));
-  };
-
   if (!authReady || !user) {
     return <p className="text-sm text-gray-600">Loading dashboard...</p>;
   }
@@ -149,12 +141,12 @@ export default function DashboardPage() {
           <p className="text-2xl font-semibold text-slate-900">{tasks.length}</p>
         </div>
         <div className="rounded-xl border border-white/70 bg-white/70 p-4 backdrop-blur">
-          <p className="text-sm text-slate-500">Pending</p>
+          <p className="text-sm text-slate-500">In Progress</p>
           <p className="text-2xl font-semibold text-slate-900">{pendingTasks.length}</p>
         </div>
         <div className="rounded-xl border border-white/70 bg-white/70 p-4 backdrop-blur">
-          <p className="text-sm text-slate-500">Completed</p>
-          <p className="text-2xl font-semibold text-slate-900">{completedTasks.length}</p>
+          <p className="text-sm text-slate-500">Completion</p>
+          <p className="text-2xl font-semibold text-slate-900">{completionRate}%</p>
         </div>
       </section>
 
@@ -184,79 +176,48 @@ export default function DashboardPage() {
       {isLoading ? (
         <p className="text-sm text-gray-600">Loading tasks...</p>
       ) : (
-        <div className="space-y-6">
-          <TaskSection
-            title="Pending"
-            emptyMessage="No pending tasks."
-            tasks={pendingTasks}
-            onToggle={handleToggleTask}
-            onDelete={handleDeleteTask}
-          />
+        <section className="space-y-4 rounded-xl border border-white/70 bg-white/70 p-4 backdrop-blur">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">Today&apos;s Focus</h2>
+              <p className="text-sm text-slate-500">Top tasks to move forward right now.</p>
+            </div>
+            <Link
+              href="/tasks/board"
+              className="rounded-md bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700 hover:bg-slate-200"
+            >
+              Open Task Board
+            </Link>
+          </div>
 
-          <TaskSection
-            title="Completed"
-            emptyMessage="No completed tasks yet."
-            tasks={completedTasks}
-            onToggle={handleToggleTask}
-            onDelete={handleDeleteTask}
-          />
-        </div>
+          {focusTasks.length === 0 ? (
+            <p className="text-sm text-slate-500">No pending tasks for now. Great progress.</p>
+          ) : (
+            <ul className="space-y-2">
+              {focusTasks.map((task) => (
+                <li
+                  key={task.id}
+                  className="flex items-center justify-between rounded-md border border-slate-200 bg-white/80 px-3 py-2"
+                >
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      checked={task.completed}
+                      onChange={() => handleToggleTask(task)}
+                      className="h-4 w-4"
+                    />
+                    <p className={`text-sm ${task.completed ? "text-slate-500 line-through" : "text-slate-800"}`}>
+                      {task.title}
+                    </p>
+                  </div>
+
+                  <span className="rounded-md bg-slate-100 px-2 py-1 text-xs text-slate-600">In Progress</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       )}
     </div>
-  );
-}
-
-function TaskSection({
-  title,
-  emptyMessage,
-  tasks,
-  onToggle,
-  onDelete,
-}: {
-  title: string;
-  emptyMessage: string;
-  tasks: Task[];
-  onToggle: (task: Task) => void;
-  onDelete: (taskId: number) => void;
-}) {
-  return (
-    <section className="rounded-xl border border-white/70 bg-white/70 p-4 backdrop-blur">
-      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-600">{title}</h2>
-
-      {tasks.length === 0 ? (
-        <p className="text-sm text-slate-500">{emptyMessage}</p>
-      ) : (
-        <ul className="space-y-2">
-          {tasks.map((task) => (
-            <li
-              key={task.id}
-              className="flex items-center justify-between rounded-md border border-slate-200 bg-white/80 px-3 py-2"
-            >
-              <div className="flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={() => onToggle(task)}
-                  className="h-4 w-4"
-                />
-                <div>
-                  <p className={`text-sm ${task.completed ? "text-slate-500 line-through" : "text-slate-800"}`}>
-                    {task.title}
-                  </p>
-                </div>
-              </div>
-
-              <button
-                onClick={() => onDelete(task.id)}
-                className="text-xs text-slate-500 hover:text-red-600"
-                type="button"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
   );
 }
